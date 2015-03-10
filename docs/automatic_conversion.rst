@@ -1,11 +1,11 @@
 .. _automatic-conversion:
 
-Automatic conversion to Py2/3 with ``futurize`` and ``pasteurize``
-==================================================================
+Automatic conversion to Py2/3
+=============================
 
 The ``future`` source tree includes scripts called ``futurize`` and
 ``pasteurize`` to aid in making Python 2 code or Python 3 code compatible with
-both platforms (Py2&3) using the :mod:`future` module. These are based on
+both platforms (Py2/3) using the :mod:`future` module. These are based on
 ``lib2to3`` and use fixers from ``2to3``, ``3to2``, and ``python-modernize``.
 
 ``futurize`` passes Python 2 code through all the appropriate fixers to turn it
@@ -21,6 +21,8 @@ mostly unchanged on both Python 2 and Python 3.
 
 
 .. include:: futurize.rst
+
+.. include:: futurize_cheatsheet.rst
 
 .. include:: pasteurize.rst
 

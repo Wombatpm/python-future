@@ -1,15 +1,14 @@
 .. _futurize_cheatsheet:
 
-``futurize`` cheat-sheet: automatic conversion from Py2 to Py2&3
-================================================================
+``futurize`` quick-start guide
+------------------------------
 
-Instructions and notes on converting code from supporting only Python 2 to
-supporting both Python 3 and 2 with a single codebase using ``futurize``:
+How to convert Py2 code to Py2/3 code using ``futurize``:
 
 .. _porting-setup:
 
 Step 0: setup
--------------
+~~~~~~~~~~~~~
 
 Step 0 goal: set up and see the tests passing on Python 2 and failing on Python 3.
 
@@ -23,7 +22,7 @@ d. Install Python 3.3 with e.g. ``sudo apt-get install python3``. On other platf
 .. _porting-step1:
 
 Step 1: modern Py2 code
------------------------
+~~~~~~~~~~~~~~~~~~~~~~~
 
 The goal for this step is to modernize the Python 2 code without introducing any dependencies (on ``future`` or e.g. ``six``) at this stage.
 
@@ -45,7 +44,7 @@ See :ref:`forwards-conversion-stage1` for more info.
 
 
 Example error
-~~~~~~~~~~~~~
+*************
 
 One relatively common error after conversion is::
 
@@ -71,7 +70,7 @@ imports.)
 .. _porting-step2:
 
 Step 2: working Py3 code that still supports Py2
-------------------------------------------------
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 The goal for this step is to get the tests passing first on Py3 and then on Py2
 again with the help of the ``future`` package.
@@ -88,12 +87,15 @@ changes to all Python source files recursively with::
 To apply the changes, add the ``-w`` argument.
 
 This stage makes further conversions needed to support both Python 2 and 3.
-These will likely require imports from ``future``, such as::
+These will likely require imports from ``future`` on Py2 (and sometimes on Py3),
+such as::
 
     from future import standard_library
-    standard_library.install_hooks()
-    from future.builtins import bytes
-    from future.builtins import open
+    standard_library.install_aliases()
+    # ...
+    from builtins import bytes
+    from builtins import open
+    from future.utils import with_metaclass
 
 Optionally, you can use the ``--unicode-literals`` flag to add this import to
 the top of each module::
@@ -115,7 +117,7 @@ Python 3 semantics on Python 2, invoke it like this::
 
 **2d**. Now run your tests on Python 2 and notice the errors. Add wrappers from
 ``future`` to re-enable Python 2 compatibility. See the
-:ref:`compatible-idioms` cheat sheet or :ref:`what-else` for more info.
+:ref:`compatible-idioms` cheat sheet and :ref:`what-else` for more info.
 
 After each change, re-run the tests on Py3 and Py2 to ensure they pass on both.
 

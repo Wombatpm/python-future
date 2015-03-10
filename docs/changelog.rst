@@ -1,18 +1,83 @@
+.. _whats-old:
+
 Changes in previous versions
 ****************************
 
+Changes in the most recent major version are here: :ref:`whats-new`.
+
+.. _whats-new-0.13.x:
+
+Changes in version 0.13.1 (2014-09-23)
+======================================
+
+This is a bug-fix release:
+
+- Fix (multiple) inheritance of ``future.builtins.object`` with metaclasses (issues #91 and #96)
+- Fix ``futurize``'s refactoring of ``urllib`` imports (issue #94)
+- Fix ``futurize --all-imports`` (issue #101)
+- Fix ``futurize --output-dir`` logging (issue #102)
+- Doc formatting fix (issues #98, 100)
+
+
+Changes in version 0.13 (2014-08-13)
+====================================
+
+This is mostly a clean-up release. It adds some small new compatibility features
+and fixes several bugs.
+
+Deprecations
+------------
+
+The following unused internal modules are now deprecated. They will be removed in a
+future release:
+
+- ``future.utils.encoding`` and ``future.utils.six``.
+
+(Issue #80). See `here <http://fedoraproject.org/wiki/Packaging:No_Bundled_Libraries>`_
+for the rationale for unbundling them.
+
+
+New features
+------------
+
+- Docs: Add :ref:`compatible-idioms` from Ed Schofield's PyConAU 2014 talk.
+- Add ``newint.to_bytes()`` and ``newint.from_bytes()`` (issue #85)
+- Add ``future.utils.raise_from`` as an equivalent to Py3's ``raise ... from
+  ...`` syntax (issue #86).
+- Add ``past.builtins.oct()`` function.
+- Add backports for Python 2.6 of ``subprocess.check_output()``,
+  ``itertools.combinations_with_replacement()``, and ``functools.cmp_to_key()``.
+
+Bug fixes
+---------
+
+- Use a private logger instead of the global logger in
+  ``future.standard_library`` (issue #82). This restores compatibility of the
+  standard library hooks with ``flask`` (issue #79).
+- Stage 1 of ``futurize`` no longer renames ``next`` methods to ``__next__``
+  (issue #81). It still converts ``obj.next()`` method calls to
+  ``next(obj)`` correctly.
+- Prevent introduction of a second set of parentheses in ``print()`` calls in
+  some further cases.
+- Fix isinstance checks for subclasses of future types (issue #89).
+- Be explicit about encoding file contents as UTF-8 in unit tests (issue #63).
+  Useful for building RPMs and in other environments where ``LANG=C``.
+- Fix for 3-argument ``pow(x, y, z)`` with ``newint`` arguments (issue #87).
+  (Thanks to @str4d).
+
+
 .. _whats-new-0.12.4:
 
-What's new in version 0.12.4
-============================
+Changes in version 0.12.4 (2014-07-18)
+======================================
 
 - Fix upcasting behaviour of newint (issue #76).
 
 
 .. _whats-new-0.12.3:
 
-What's new in version 0.12.3
-============================
+Changes in version 0.12.3 (2014-06-19)
+======================================
 
 - Add "official Python 3.4 support": Py3.4 is now listed among the PyPI Trove
   classifiers and the tests now run successfully on Py3.4 (issue #67).
@@ -42,8 +107,8 @@ What's new in version 0.12.3
 
 .. _whats-new-0.12.2:
 
-What's new in version 0.12.2
-============================
+Changes in version 0.12.2 (2014-05-25)
+======================================
 
 - Add ``bytes.maketrans()`` method (issue #51).
 - Add support for Python versions between 2.7.0 and 2.7.3 (inclusive)
@@ -53,8 +118,8 @@ What's new in version 0.12.2
 
 .. _whats-new-0.12.1:
 
-What's new in version 0.12.1
-============================
+Changes in version 0.12.1 (2014-05-14)
+======================================
 
 - Python 2.6 support: ``future.standard_library`` now isolates the ``importlib``
   dependency to one function (``import_``) so the ``importlib`` backport may
@@ -65,8 +130,8 @@ What's new in version 0.12.1
 
 .. _whats-new-0.12:
 
-What's new in version 0.12.0
-============================
+Changes in version 0.12.0 (2014-05-06)
+======================================
 
 The major new feature in this version is improvements in the support for the
 reorganized standard library (PEP 3108) and compatibility of the import
@@ -112,7 +177,7 @@ with tools like ``py2exe``.
 -------------------------------------------------------------------------
 
 There is a new ``future.types.newobject`` base class (available as
-``future.builtins.object``) that can streamline Py3/2 compatible code by
+``future.builtins.object``) that can streamline Py2/3 compatible code by
 providing fallback Py2-compatible special methods for its subclasses. It
 currently provides ``next()`` and ``__nonzero__()`` as fallback methods on Py2
 when its subclasses define the corresponding Py3-style ``__next__()`` and
@@ -283,8 +348,8 @@ Many small improvements and fixes have been made across the project. Some highli
 
 .. _whats-new-0.11.4:
 
-What's new in version 0.11.4
-============================
+Changes in version 0.11.4 (2014-05-25)
+======================================
 
 This release contains various small improvements and fixes:
 
@@ -310,8 +375,8 @@ This release contains various small improvements and fixes:
 
 .. _whats-new-0.11.3:
 
-What's new in version 0.11.3
-============================
+Changes in version 0.11.3 (2014-02-27)
+======================================
 
 This release has improvements in the standard library import hooks mechanism and
 its compatibility with 3rd-party modules:
@@ -378,8 +443,8 @@ The ``pasteurize`` script for converting from Py3 to Py2/3 still adds
 
 .. _whats-new-0.11:
 
-What's new in version 0.11
-==========================
+Changes in version 0.11 (2014-01-28)
+====================================
 
 There are several major new features in version 0.11. 
 
@@ -506,60 +571,11 @@ types but not their use.
 
 .. _whats-new-0.10.2:
 
-What's new in version 0.10.2
-============================
+Changes in version 0.10.2 (2014-01-11)
+======================================
 
-
-.. Simpler imports
-.. ---------------
-.. 
-.. It is now possible to import builtins directly from the ``future``
-.. namespace as follows::
-.. 
-..     >>> from future import *
-..     
-.. or just those you need::
-.. 
-..     >>> from future import open, str
-
-
-Utility functions for raising exceptions with a traceback portably
-------------------------------------------------------------------
-
-The functions ``raise_with_traceback()`` and ``raise_`` were added to
-``future.utils`` to offer either the Python 3.x or Python 2.x behaviour
-for raising exceptions. Thanks to Joel Tratner for the contribution of
-these.
-
-
-.. _whats-new-0.10:
-
-What's new in version 0.10
-==========================
-
-Backported ``dict`` type
-------------------------
-
-``future.builtins`` now provides a Python 2 ``dict`` subclass whose
-:func:`keys`, :func:`values`, and :func:`items` methods produce
-memory-efficient iterators. On Python 2.7, these also have the same set-like
-view behaviour as on Python 3. This can streamline code needing to iterate
-over large dictionaries. For example::
-
-    from __future__ import print_function
-    from future.builtins import dict, range
-    
-    squares = dict({i: i**2 for i in range(10**7)})
-
-    assert not isinstance(d.items(), list)
-    # Because items() is memory-efficient, so is this:
-    square_roots = dict((i_squared, i) for (i, i_squared) in squares.items())
-
-For more information, see :ref:`dict-object`.
-
-
-Refactoring of standard_library hooks (v0.10.2)
------------------------------------------------
+New context-manager interface to standard_library hooks
+-------------------------------------------------------
 
 There is a new context manager ``future.standard_library.hooks``. Use it like
 this::
@@ -593,6 +609,31 @@ still available as aliases, but are deprecated.
 As usual, this feature has no effect on Python 3.
 
 
+.. _whats-new-0.10:
+
+Changes in version 0.10.0 (2013-12-02)
+======================================
+
+Backported ``dict`` type
+------------------------
+
+``future.builtins`` now provides a Python 2 ``dict`` subclass whose
+:func:`keys`, :func:`values`, and :func:`items` methods produce
+memory-efficient iterators. On Python 2.7, these also have the same set-like
+view behaviour as on Python 3. This can streamline code needing to iterate
+over large dictionaries. For example::
+
+    from __future__ import print_function
+    from future.builtins import dict, range
+    
+    squares = dict({i: i**2 for i in range(10**7)})
+
+    assert not isinstance(d.items(), list)
+    # Because items() is memory-efficient, so is this:
+    square_roots = dict((i_squared, i) for (i, i_squared) in squares.items())
+
+For more information, see :ref:`dict-object`.
+
 
 Utility functions ``raise_`` and ``exec_``
 ------------------------------------------
@@ -615,12 +656,12 @@ Bugfixes
 
 .. _whats-new-0.9:
 
-What's new in version 0.9
-=========================
+Changes in version 0.9 (2013-11-06)
+===================================
 
 
-``isinstance`` checks supported natively with backported types
---------------------------------------------------------------
+``isinstance`` checks are supported natively with backported types
+------------------------------------------------------------------
 
 The ``isinstance`` function is no longer redefined in ``future.builtins``
 to operate with the backported ``int``, ``bytes`` and ``str``.
@@ -640,7 +681,7 @@ imports deemed necessary.
 There is now an ``--all-imports`` option to the ``futurize`` script which
 gives the previous behaviour, which is to add all ``__future__`` imports
 and ``from future.builtins import *`` imports to every module. (This even
-applies to an empty ``__init__.py`` file.
+applies to an empty ``__init__.py`` file.)
 
 
 Looser type-checking for the backported ``str`` object
@@ -675,8 +716,8 @@ To work around this, ``future`` now provides a context manager called
 
 .. _whats-new-0.8:
 
-What's new in version 0.8
-=========================
+Changes in version 0.8 (2013-10-28)
+===================================
 
 Python 2.6 support
 ------------------
@@ -723,6 +764,29 @@ deprecated.
 
 Summary of all changes
 ======================
+
+v0.14.3:
+  * Bug fixes
+
+v0.14.2:
+  * Bug fixes
+
+v0.14.1:
+  * Bug fixes
+
+v0.14:
+  * New top-level ``builtins`` package on Py2 for cleaner imports. Equivalent to
+    ``future.builtins``
+  * New top-level packages on Py2 with the same names as Py3 standard modules:
+    ``configparser``, ``copyreg``, ``html``, ``http``, ``xmlrpc``, ``winreg``
+
+v0.13.1:
+  * Bug fixes
+
+v0.13.0:
+  * Cheat sheet for writing Python 2/3 compatible code
+  * ``to_int`` and ``from_int`` methods for ``newbytes``
+  * Bug fixes
 
 v0.12.0:
   * Add ``newobject`` and ``newlist`` types

@@ -4,17 +4,16 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
-   overview
    whatsnew
+   overview
    quickstart
    compatible_idioms
    imports
-   standard_library_imports
    what_else
    automatic_conversion
-   futurize_cheatsheet
-   stdlib_incompatibilities
    faq
+   stdlib_incompatibilities
+   older_interfaces
    changelog
    credits
    reference

@@ -27,22 +27,24 @@ standard feature of Python, see the following docs:
 These are all available in Python 2.6 and up, and enabled by default in Python 3.x.
 
 
-future.builtins imports
------------------------
+.. _builtins-imports:
+
+Imports of builtins
+-------------------
 
 .. _star-imports:
 
 Implicit imports
 ~~~~~~~~~~~~~~~~
 
-If you don't mind namespace pollution on Python 2, the easiest way to provide
-Py2/3 compatibility for new code using ``future`` is to include the following
-imports at the top of every module::
+If you don't mind namespace pollution, the easiest way to provide Py2/3
+compatibility for new code using ``future`` is to include the following imports
+at the top of every module::
 
-    from future.builtins import *
+    from builtins import *
 
-On Python 3, ``from future.builtins import *`` line has zero effect and zero
-namespace pollution.
+On Python 3, this has no effect. (It shadows builtins with globals of the same
+names.) 
 
 On Python 2, this import line shadows 18 builtins (listed below) to
 provide their Python 3 semantics.
@@ -56,19 +58,18 @@ Explicit imports
 Explicit forms of the imports are often preferred and are necessary for using
 certain automated code-analysis tools.
 
-The complete set of imports from ``future`` is::
+The complete set of imports of builtins from ``future`` is::
     
-    from future import standard_library, utils
-    from future.builtins import (ascii, bytes, chr, dict, filter, hex, input,
-                                 int, map, next, oct, open, pow, range, round,
-                                 str, super, zip)
+    from builtins import (ascii, bytes, chr, dict, filter, hex, input,
+                          int, map, next, oct, open, pow, range, round,
+                          str, super, zip)
 
+These are also available under the ``future.builtins`` namespace for backward compatibility.
 
-The disadvantage of importing only some of the builtins is that it
-increases the risk of introducing Py2/3 portability bugs as your code
-evolves over time. Be especially aware of not importing ``input``, which could
-expose a security vulnerability on Python 2 if Python 3's semantics are
-expected.
+Importing only some of the builtins is cleaner but increases the risk of
+introducing Py2/3 portability bugs as your code evolves over time. For example,
+be aware of forgetting to import ``input``, which could expose a security
+vulnerability on Python 2 if Python 3's semantics are expected.
 
 .. One further technical distinction is that unlike the ``import *`` form above,
 .. these explicit imports do actually modify ``locals()`` on Py3; this is
@@ -78,24 +79,22 @@ The internal API is currently as follows::
 
     from future.types import bytes, dict, int, range, str
     from future.builtins.misc import (ascii, chr, hex, input, next,
-                                      oct, open, round, super)
+                                      oct, open, pow, round, super)
     from future.builtins.iterators import filter, map, zip
 
-To understand the details of the backported builtins on Python 2, see the
-docs for these modules. Please note that this internal API is evolving and may
-not be stable between different versions of ``future``.
+Please note that this internal API is evolving and may not be stable between
+different versions of ``future``. To understand the details of the backported
+builtins on Python 2, see the docs for these modules. 
 
 For more information on what the backported types provide, see :ref:`what-else`.
 
 .. < Section about past.translation is included here >
 
-.. include:: translation.rst
-
 
 .. _obsolete-builtins:
 
 Obsolete Python 2 builtins
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+__________________________
 
 Twelve Python 2 builtins have been removed from Python 3. To aid with
 porting code to Python 3 module by module, you can use the following
@@ -116,5 +115,12 @@ equivalent Python 3 forms and then adds ``future`` imports to resurrect
 Python 2 support, as described in :ref:`forwards-conversion-stage2`.
 
 
+.. include:: standard_library_imports.rst
+
+.. include:: translation.rst
+
 .. include:: unicode_literals.rst
 
+Next steps
+----------
+See :ref:`what-else`.
